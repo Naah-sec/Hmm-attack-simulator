@@ -1,0 +1,58 @@
+{
+  "name": "Published APT-HMM",
+  "description": "Six-state APT-HMM profile inspired by published APT progression matrices, adapted to this simulator alert vocabulary.",
+  "states": [
+    "S1_Point_of_Entry",
+    "S2_C2_Communications",
+    "S3_Lateral_Movement",
+    "S4_Asset_Data_Discovery",
+    "S5_Data_Exfiltration",
+    "S6_Non_Complete"
+  ],
+  "initial_probs": {
+    "S1_Point_of_Entry": 0.60,
+    "S2_C2_Communications": 0.08,
+    "S3_Lateral_Movement": 0.04,
+    "S4_Asset_Data_Discovery": 0.03,
+    "S5_Data_Exfiltration": 0.02,
+    "S6_Non_Complete": 0.23
+  },
+  "transition_matrix": [
+    [0.0096, 0.8798, 0.0096, 0.0096, 0.0096, 0.0817],
+    [0.0098, 0.0098, 0.3814, 0.2593, 0.1950, 0.1446],
+    [0.0097, 0.0097, 0.0097, 0.4445, 0.2999, 0.2263],
+    [0.0096, 0.0096, 0.0096, 0.0096, 0.7241, 0.2374],
+    [0.9523, 0.0095, 0.0095, 0.0095, 0.0095, 0.0095],
+    [0.9523, 0.0095, 0.0095, 0.0095, 0.0095, 0.0095]
+  ],
+  "smoothing": 0.1,
+  "emission_weights": {
+    "S1_Point_of_Entry": {
+      "PHISHING_EMAIL": 9, "EXPLOIT_PUBLIC_APP": 9, "LOGIN_BRUTE_FORCE": 7,
+      "MALWARE_DOWNLOAD": 4, "PORT_SCAN": 3, "VULN_SCAN": 3,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "S2_C2_Communications": {
+      "C2_BEACONING": 10, "MALWARE_DOWNLOAD": 6, "POWERSHELL_ENCODED": 5,
+      "SUSPICIOUS_PROCESS": 4, "EXFIL_OVER_HTTP": 2, "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "S3_Lateral_Movement": {
+      "SMB_LOGIN": 9, "RDP_LOGIN": 9, "REMOTE_SERVICE_CREATION": 8, "PASS_THE_HASH": 8,
+      "INTERNAL_PORT_SCAN": 6, "NETWORK_SHARE_DISCOVERY": 5, "CREDENTIAL_DUMPING": 4,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "S4_Asset_Data_Discovery": {
+      "DATA_STAGING": 8, "DATABASE_DUMP": 8, "FILE_COMPRESSION": 7,
+      "NETWORK_SHARE_DISCOVERY": 7, "INTERNAL_PORT_SCAN": 5, "SMB_LOGIN": 3,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "S5_Data_Exfiltration": {
+      "LARGE_OUTBOUND_TRANSFER": 10, "EXFIL_OVER_HTTP": 9, "EXFIL_OVER_DNS": 9,
+      "C2_BEACONING": 5, "DATA_STAGING": 3, "FILE_COMPRESSION": 2, "DATABASE_DUMP": 2,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "S6_Non_Complete": {
+      "NORMAL_TRAFFIC": 10, "UNKNOWN_ALERT": 8, "WEB_CRAWLING": 2, "PORT_SCAN": 2, "*": 0.5
+    }
+  }
+}

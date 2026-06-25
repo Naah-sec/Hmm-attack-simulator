@@ -1,0 +1,71 @@
+{
+  "name": "ATT&CK-Enriched HMM",
+  "description": "Eight-state ATT&CK-inspired HMM for explainable multi-stage attacker progression from IDS alert labels.",
+  "states": [
+    "Reconnaissance",
+    "Initial Access",
+    "Execution",
+    "Privilege Escalation",
+    "Lateral Movement",
+    "Collection",
+    "Exfiltration",
+    "Noise"
+  ],
+  "initial_probs": {
+    "Reconnaissance": 0.50,
+    "Initial Access": 0.15,
+    "Execution": 0.05,
+    "Privilege Escalation": 0.03,
+    "Lateral Movement": 0.03,
+    "Collection": 0.02,
+    "Exfiltration": 0.02,
+    "Noise": 0.20
+  },
+  "transition_matrix": [
+    [0.35, 0.45, 0.02, 0.01, 0.01, 0.00, 0.00, 0.16],
+    [0.03, 0.25, 0.35, 0.10, 0.12, 0.02, 0.01, 0.12],
+    [0.01, 0.05, 0.25, 0.25, 0.20, 0.05, 0.02, 0.17],
+    [0.01, 0.03, 0.10, 0.25, 0.30, 0.10, 0.03, 0.18],
+    [0.01, 0.02, 0.05, 0.10, 0.30, 0.30, 0.05, 0.17],
+    [0.00, 0.01, 0.03, 0.04, 0.12, 0.35, 0.35, 0.10],
+    [0.02, 0.02, 0.02, 0.02, 0.04, 0.08, 0.65, 0.15],
+    [0.20, 0.10, 0.05, 0.03, 0.03, 0.02, 0.02, 0.55]
+  ],
+  "smoothing": 0.1,
+  "emission_weights": {
+    "Reconnaissance": {
+      "PORT_SCAN": 9, "VULN_SCAN": 8, "DNS_ENUMERATION": 7, "WEB_CRAWLING": 5,
+      "INTERNAL_PORT_SCAN": 2, "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Initial Access": {
+      "EXPLOIT_PUBLIC_APP": 9, "PHISHING_EMAIL": 8, "LOGIN_BRUTE_FORCE": 7,
+      "MALWARE_DOWNLOAD": 4, "C2_BEACONING": 2, "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Execution": {
+      "SUSPICIOUS_PROCESS": 8, "POWERSHELL_ENCODED": 8, "MALWARE_DOWNLOAD": 6,
+      "SCHEDULED_TASK": 4, "C2_BEACONING": 3, "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Privilege Escalation": {
+      "PRIV_ESC_EXPLOIT": 9, "CREDENTIAL_DUMPING": 7, "SCHEDULED_TASK": 5,
+      "POWERSHELL_ENCODED": 4, "SUSPICIOUS_PROCESS": 3, "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Lateral Movement": {
+      "SMB_LOGIN": 8, "RDP_LOGIN": 8, "REMOTE_SERVICE_CREATION": 8, "PASS_THE_HASH": 7,
+      "NETWORK_SHARE_DISCOVERY": 6, "INTERNAL_PORT_SCAN": 5, "CREDENTIAL_DUMPING": 3,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Collection": {
+      "DATA_STAGING": 9, "FILE_COMPRESSION": 8, "DATABASE_DUMP": 8,
+      "NETWORK_SHARE_DISCOVERY": 3, "SMB_LOGIN": 2, "LARGE_OUTBOUND_TRANSFER": 2,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Exfiltration": {
+      "LARGE_OUTBOUND_TRANSFER": 9, "EXFIL_OVER_HTTP": 9, "EXFIL_OVER_DNS": 8,
+      "C2_BEACONING": 5, "DATA_STAGING": 3, "FILE_COMPRESSION": 2, "DATABASE_DUMP": 2,
+      "UNKNOWN_ALERT": 1, "NORMAL_TRAFFIC": 1
+    },
+    "Noise": {
+      "NORMAL_TRAFFIC": 10, "UNKNOWN_ALERT": 7, "*": 0.5
+    }
+  }
+}

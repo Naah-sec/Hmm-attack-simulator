@@ -1,0 +1,32 @@
+{
+  "Web Intrusion to Exfiltration": {
+    "description": "Public-facing web compromise followed by execution, collection, and HTTP exfiltration.",
+    "alerts": ["PORT_SCAN", "VULN_SCAN", "EXPLOIT_PUBLIC_APP", "MALWARE_DOWNLOAD", "POWERSHELL_ENCODED", "PRIV_ESC_EXPLOIT", "SMB_LOGIN", "NETWORK_SHARE_DISCOVERY", "DATA_STAGING", "FILE_COMPRESSION", "EXFIL_OVER_HTTP"],
+    "true_states": ["Reconnaissance", "Reconnaissance", "Initial Access", "Execution", "Execution", "Privilege Escalation", "Lateral Movement", "Lateral Movement", "Collection", "Collection", "Exfiltration"]
+  },
+  "Phishing and Credential-Based Lateral Movement": {
+    "description": "Phishing-led access and credential reuse through lateral movement into collection and exfiltration.",
+    "alerts": ["DNS_ENUMERATION", "PHISHING_EMAIL", "C2_BEACONING", "CREDENTIAL_DUMPING", "PASS_THE_HASH", "RDP_LOGIN", "DATABASE_DUMP", "LARGE_OUTBOUND_TRANSFER"],
+    "true_states": ["Reconnaissance", "Initial Access", "Execution", "Privilege Escalation", "Lateral Movement", "Lateral Movement", "Collection", "Exfiltration"]
+  },
+  "Brute Force to Internal Movement": {
+    "description": "Brute force access, suspicious execution, remote service activity, collection, and DNS exfiltration.",
+    "alerts": ["WEB_CRAWLING", "LOGIN_BRUTE_FORCE", "SUSPICIOUS_PROCESS", "REMOTE_SERVICE_CREATION", "INTERNAL_PORT_SCAN", "DATA_STAGING", "EXFIL_OVER_DNS"],
+    "true_states": ["Reconnaissance", "Initial Access", "Execution", "Lateral Movement", "Lateral Movement", "Collection", "Exfiltration"]
+  },
+  "Noisy Partial Attack": {
+    "description": "A mixed sequence where low-signal traffic interrupts a partial attack chain.",
+    "alerts": ["NORMAL_TRAFFIC", "PORT_SCAN", "UNKNOWN_ALERT", "PHISHING_EMAIL", "NORMAL_TRAFFIC", "SMB_LOGIN", "DATA_STAGING", "EXFIL_OVER_HTTP"],
+    "true_states": ["Noise", "Reconnaissance", "Noise", "Initial Access", "Noise", "Lateral Movement", "Collection", "Exfiltration"]
+  },
+  "C2-Centered APT Chain": {
+    "description": "Initial phishing and tool transfer with command-and-control dominated progression.",
+    "alerts": ["PHISHING_EMAIL", "MALWARE_DOWNLOAD", "C2_BEACONING", "POWERSHELL_ENCODED", "CREDENTIAL_DUMPING", "SMB_LOGIN", "DATA_STAGING", "EXFIL_OVER_HTTP"],
+    "true_states": ["Initial Access", "Execution", "Execution", "Execution", "Privilege Escalation", "Lateral Movement", "Collection", "Exfiltration"]
+  },
+  "Benign / Noise Heavy Sequence": {
+    "description": "Mostly benign and unknown activity with a small reconnaissance-like artifact.",
+    "alerts": ["NORMAL_TRAFFIC", "UNKNOWN_ALERT", "NORMAL_TRAFFIC", "WEB_CRAWLING", "UNKNOWN_ALERT", "NORMAL_TRAFFIC"],
+    "true_states": ["Noise", "Noise", "Noise", "Reconnaissance", "Noise", "Noise"]
+  }
+}
