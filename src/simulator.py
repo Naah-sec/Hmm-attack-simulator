@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from copy import deepcopy
+from functools import lru_cache
 from typing import Any
 
 import numpy as np
@@ -12,6 +13,7 @@ from .config_loader import alert_vocabulary, load_json
 from .model_profiles import ENRICHED_PROFILE, PUBLISHED_PROFILE, map_state_between_profiles
 
 
+@lru_cache(maxsize=1)
 def load_scenarios() -> dict[str, dict[str, Any]]:
     return load_json("scenarios.json")
 
@@ -104,4 +106,3 @@ def custom_sequence_from_user_input(raw_text: str) -> tuple[list[str], list[str]
     if not alerts:
         alerts = ["UNKNOWN_ALERT"]
     return alerts, unknown
-

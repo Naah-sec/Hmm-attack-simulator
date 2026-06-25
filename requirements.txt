@@ -3,6 +3,3 @@ numpy
 pandas
 plotly
 networkx
-scikit-learn
-pydantic
-pytest

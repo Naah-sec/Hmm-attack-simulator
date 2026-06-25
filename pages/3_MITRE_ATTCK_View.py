@@ -6,6 +6,7 @@ import streamlit as st
 from src.analysis_pipeline import analyze_alerts
 from src.config_loader import load_mitre_mapping
 from src.export import export_attack_navigator_layer
+from src.mitre_mapper import build_navigator_technique_entries
 from src.model_profiles import list_available_profiles
 from src.simulator import get_scenario_names, simulate_scenario
 from src.utils import inject_css, panel
@@ -62,7 +63,7 @@ st.plotly_chart(mitre_ranking_chart(analysis["mitre_techniques"]), use_container
 st.dataframe(pd.DataFrame(analysis["mitre_techniques"]), hide_index=True, use_container_width=True)
 
 with st.expander("Navigator Export Preview", expanded=False):
-    path = export_attack_navigator_layer(analysis["mitre_techniques"])
-    panel(f"Saved preview layer to `{path}`.")
-    st.json({"techniques": [{"techniqueID": item["technique_id"], "score": item["score"]} for item in analysis["mitre_techniques"][:8]]})
-
+    st.json({"techniques": build_navigator_technique_entries(analysis["mitre_techniques"][:8])})
+    if st.button("Save Navigator preview"):
+        path = export_attack_navigator_layer(analysis["mitre_techniques"])
+        panel(f"Saved preview layer to `{path}`.")
