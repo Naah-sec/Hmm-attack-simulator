@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from html import escape
+import re
 from typing import Any
 
 import pandas as pd
@@ -64,7 +65,11 @@ def metric_card(label: str, value: str, subtext: str = "") -> None:
 
 def panel(markdown: str, warning: bool = False) -> None:
     klass = "warning-panel" if warning else "panel"
-    st.markdown(f'<div class="{klass}">{markdown}</div>', unsafe_allow_html=True)
+    html = escape(markdown)
+    html = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", html)
+    html = re.sub(r"`(.+?)`", r"<code>\1</code>", html)
+    html = html.replace("\n", "<br>")
+    st.markdown(f'<div class="{klass}">{html}</div>', unsafe_allow_html=True)
 
 
 def badges(labels: list[str]) -> None:
@@ -117,4 +122,3 @@ This is a defensive research simulator using synthetic IDS labels. Emissions are
 ### Future work
 Train emissions from real alert datasets, parse Suricata or Wazuh events, mine ATT&CK Attack Flow sequences, add labeled-campaign learning, and include analyst feedback.
 """
-

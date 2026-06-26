@@ -70,6 +70,7 @@ def noise_robustness_experiment(
                     true_states = simulation["true_states"]
                     vit = model.viterbi(alerts)
                     current = model.current_state_distribution(alerts)
+                    sequence_log_likelihood = model.sequence_log_likelihood(alerts)
                     rows.append(
                         {
                             "profile": profile_name,
@@ -77,11 +78,14 @@ def noise_robustness_experiment(
                             "noise_rate": noise_rate,
                             "missing_rate": missing_rate,
                             "seed": seed,
+                            "observed_alert_count": len(alerts),
+                            "stress_score": 100 * (1 - ((1 - noise_rate) * (1 - missing_rate))),
                             "phase_accuracy": phase_accuracy(vit["path"], true_states),
                             "next_step_accuracy": next_step_accuracy(model, alerts, true_states),
                             "top3_next_step_accuracy": top_k_next_step_accuracy(model, alerts, true_states, k=3),
                             "avg_current_confidence": current_state_confidence(current),
-                            "sequence_log_likelihood": model.sequence_log_likelihood(alerts),
+                            "sequence_log_likelihood": sequence_log_likelihood,
+                            "mean_log_likelihood_per_alert": sequence_log_likelihood / max(len(alerts), 1),
                         }
                     )
     results = pd.DataFrame(rows)
@@ -101,4 +105,3 @@ def profile_robustness_comparison(
         for profile in profiles
     ]
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
-

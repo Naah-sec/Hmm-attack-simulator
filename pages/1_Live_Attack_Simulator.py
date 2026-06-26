@@ -108,7 +108,7 @@ with tabs[4]:
     panel(result["explanation"]["mathematical_explanation"])
     st.dataframe(pd.DataFrame(result["explanation"]["emission_details"]), use_container_width=True, hide_index=True)
     if result["explanation"]["caveats"]:
-        panel("<br>".join(result["explanation"]["caveats"]), warning=True)
+        panel("\n".join(result["explanation"]["caveats"]), warning=True)
 
 with tabs[5]:
     st.dataframe(result["steps_df"], use_container_width=True, hide_index=True)
@@ -142,4 +142,3 @@ with tabs[5]:
         )
         st.success(f"Saved {json_path} and {md_path}")
     st.download_button("Download current analysis JSON", data=json.dumps(result["viterbi"], indent=2), file_name="viterbi_result.json")
-

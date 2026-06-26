@@ -184,15 +184,34 @@ def confidence_gauge(confidence: float, title: str = "Current State Confidence")
     return _layout(fig, title)
 
 
-def robustness_accuracy_chart(results: pd.DataFrame, x: str) -> go.Figure:
-    grouped = results.groupby(["profile", x], as_index=False)["phase_accuracy"].mean()
-    fig = px.line(grouped, x=x, y="phase_accuracy", color="profile", markers=True)
+def robustness_accuracy_chart(results: pd.DataFrame, x: str, metric: str = "phase_accuracy") -> go.Figure:
+    grouped = results.groupby(["profile", x], as_index=False)[metric].mean()
+    title_metric = metric.replace("_", " ").title()
+    fig = px.line(grouped, x=x, y=metric, color="profile", markers=True)
+    if metric.endswith("accuracy") or metric == "avg_current_confidence":
+        fig.update_yaxes(tickformat=".0%", range=[0, 1])
+    fig.update_traces(line=dict(width=3), marker=dict(size=9))
+    return _layout(fig, f"{title_metric} vs {x.replace('_', ' ').title()}")
+
+
+def robustness_profile_summary_chart(results: pd.DataFrame) -> go.Figure:
+    metrics = ["phase_accuracy", "next_step_accuracy", "top3_next_step_accuracy", "avg_current_confidence"]
+    grouped = results.groupby("profile", as_index=False)[metrics].mean()
+    long = grouped.melt(id_vars="profile", value_vars=metrics, var_name="metric", value_name="value")
+    long["metric"] = long["metric"].map(
+        {
+            "phase_accuracy": "Phase accuracy",
+            "next_step_accuracy": "Next-step accuracy",
+            "top3_next_step_accuracy": "Top-3 next-step accuracy",
+            "avg_current_confidence": "Current confidence",
+        }
+    )
+    fig = px.bar(long, x="metric", y="value", color="profile", barmode="group", text=long["value"].map(lambda v: f"{v:.0%}"))
     fig.update_yaxes(tickformat=".0%", range=[0, 1])
-    return _layout(fig, f"Phase Accuracy vs {x.replace('_', ' ').title()}")
+    return _layout(fig, "Profile-Level Robustness Summary")
 
 
 def robustness_heatmap(results: pd.DataFrame) -> go.Figure:
     pivot = results.pivot_table(index="noise_rate", columns="missing_rate", values="phase_accuracy", aggfunc="mean")
     fig = px.imshow(pivot, text_auto=".0%", color_continuous_scale="RdYlGn", zmin=0, zmax=1, labels=dict(color="Accuracy"))
     return _layout(fig, "Mean Phase Accuracy by Noise and Missing-Alert Rate")
-
