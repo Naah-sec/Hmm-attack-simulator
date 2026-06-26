@@ -28,5 +28,125 @@
     "description": "Mostly benign and unknown activity with a small reconnaissance-like artifact.",
     "alerts": ["NORMAL_TRAFFIC", "UNKNOWN_ALERT", "NORMAL_TRAFFIC", "WEB_CRAWLING", "UNKNOWN_ALERT", "NORMAL_TRAFFIC"],
     "true_states": ["Noise", "Noise", "Noise", "Reconnaissance", "Noise", "Noise"]
+  },
+  "Advanced - Internet-Facing App to Enterprise Data Theft": {
+    "description": "Long-form campaign beginning with external reconnaissance, exploitation of a public application, command execution, privilege escalation, repeated lateral movement, collection staging, and mixed HTTP/DNS exfiltration.",
+    "alerts": [
+      "PORT_SCAN", "VULN_SCAN", "WEB_CRAWLING", "DNS_ENUMERATION", "NORMAL_TRAFFIC",
+      "EXPLOIT_PUBLIC_APP", "MALWARE_DOWNLOAD", "SUSPICIOUS_PROCESS", "POWERSHELL_ENCODED", "C2_BEACONING",
+      "SCHEDULED_TASK", "PRIV_ESC_EXPLOIT", "CREDENTIAL_DUMPING", "UNKNOWN_ALERT",
+      "INTERNAL_PORT_SCAN", "NETWORK_SHARE_DISCOVERY", "SMB_LOGIN", "PASS_THE_HASH", "REMOTE_SERVICE_CREATION",
+      "RDP_LOGIN", "SMB_LOGIN", "NETWORK_SHARE_DISCOVERY", "NORMAL_TRAFFIC",
+      "DATA_STAGING", "DATABASE_DUMP", "FILE_COMPRESSION", "NETWORK_SHARE_DISCOVERY", "DATA_STAGING",
+      "C2_BEACONING", "LARGE_OUTBOUND_TRANSFER", "EXFIL_OVER_HTTP", "EXFIL_OVER_DNS", "NORMAL_TRAFFIC"
+    ],
+    "true_states": [
+      "Reconnaissance", "Reconnaissance", "Reconnaissance", "Reconnaissance", "Noise",
+      "Initial Access", "Execution", "Execution", "Execution", "Execution",
+      "Execution", "Privilege Escalation", "Privilege Escalation", "Noise",
+      "Lateral Movement", "Lateral Movement", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Lateral Movement", "Lateral Movement", "Lateral Movement", "Noise",
+      "Collection", "Collection", "Collection", "Collection", "Collection",
+      "Exfiltration", "Exfiltration", "Exfiltration", "Exfiltration", "Noise"
+    ]
+  },
+  "Advanced - Phishing to Credential Reuse Across Hosts": {
+    "description": "Credential-centered campaign with phishing, beaconing, credential dumping, pass-the-hash behavior, remote logins, discovery, staged data, and delayed exfiltration.",
+    "alerts": [
+      "DNS_ENUMERATION", "PHISHING_EMAIL", "NORMAL_TRAFFIC", "PHISHING_EMAIL", "MALWARE_DOWNLOAD",
+      "C2_BEACONING", "POWERSHELL_ENCODED", "SUSPICIOUS_PROCESS", "SCHEDULED_TASK",
+      "CREDENTIAL_DUMPING", "CREDENTIAL_DUMPING", "PASS_THE_HASH", "SMB_LOGIN", "RDP_LOGIN",
+      "NETWORK_SHARE_DISCOVERY", "INTERNAL_PORT_SCAN", "REMOTE_SERVICE_CREATION", "SMB_LOGIN",
+      "UNKNOWN_ALERT", "NETWORK_SHARE_DISCOVERY", "DATABASE_DUMP", "DATA_STAGING", "FILE_COMPRESSION",
+      "NORMAL_TRAFFIC", "DATA_STAGING", "LARGE_OUTBOUND_TRANSFER", "C2_BEACONING", "EXFIL_OVER_HTTP"
+    ],
+    "true_states": [
+      "Reconnaissance", "Initial Access", "Noise", "Initial Access", "Execution",
+      "Execution", "Execution", "Execution", "Execution",
+      "Privilege Escalation", "Privilege Escalation", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Lateral Movement", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Noise", "Lateral Movement", "Collection", "Collection", "Collection",
+      "Noise", "Collection", "Exfiltration", "Exfiltration", "Exfiltration"
+    ]
+  },
+  "Advanced - Slow Burn Reconnaissance and Staged Collection": {
+    "description": "A slower campaign with repeated scanning and discovery, multiple normal-traffic gaps, gradual internal movement, collection growth, and final outbound transfer.",
+    "alerts": [
+      "PORT_SCAN", "NORMAL_TRAFFIC", "DNS_ENUMERATION", "WEB_CRAWLING", "VULN_SCAN",
+      "NORMAL_TRAFFIC", "UNKNOWN_ALERT", "EXPLOIT_PUBLIC_APP", "NORMAL_TRAFFIC", "MALWARE_DOWNLOAD",
+      "SUSPICIOUS_PROCESS", "C2_BEACONING", "NORMAL_TRAFFIC", "POWERSHELL_ENCODED",
+      "PRIV_ESC_EXPLOIT", "SCHEDULED_TASK", "INTERNAL_PORT_SCAN", "NETWORK_SHARE_DISCOVERY",
+      "SMB_LOGIN", "NETWORK_SHARE_DISCOVERY", "RDP_LOGIN", "REMOTE_SERVICE_CREATION",
+      "NORMAL_TRAFFIC", "DATA_STAGING", "NETWORK_SHARE_DISCOVERY", "FILE_COMPRESSION",
+      "DATA_STAGING", "DATABASE_DUMP", "NORMAL_TRAFFIC", "LARGE_OUTBOUND_TRANSFER", "EXFIL_OVER_HTTP"
+    ],
+    "true_states": [
+      "Reconnaissance", "Noise", "Reconnaissance", "Reconnaissance", "Reconnaissance",
+      "Noise", "Noise", "Initial Access", "Noise", "Execution",
+      "Execution", "Execution", "Noise", "Execution",
+      "Privilege Escalation", "Privilege Escalation", "Lateral Movement", "Lateral Movement",
+      "Lateral Movement", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Noise", "Collection", "Collection", "Collection",
+      "Collection", "Collection", "Noise", "Exfiltration", "Exfiltration"
+    ]
+  },
+  "Advanced - Noisy Interrupted Intrusion With Recovery": {
+    "description": "A realistic noisy investigation stream where benign and unknown alerts interrupt the attack chain before the campaign resumes and reaches collection and exfiltration.",
+    "alerts": [
+      "NORMAL_TRAFFIC", "UNKNOWN_ALERT", "PORT_SCAN", "NORMAL_TRAFFIC", "VULN_SCAN",
+      "WEB_CRAWLING", "UNKNOWN_ALERT", "LOGIN_BRUTE_FORCE", "NORMAL_TRAFFIC", "PHISHING_EMAIL",
+      "MALWARE_DOWNLOAD", "UNKNOWN_ALERT", "C2_BEACONING", "SUSPICIOUS_PROCESS", "NORMAL_TRAFFIC",
+      "CREDENTIAL_DUMPING", "POWERSHELL_ENCODED", "PASS_THE_HASH", "SMB_LOGIN",
+      "UNKNOWN_ALERT", "INTERNAL_PORT_SCAN", "RDP_LOGIN", "NETWORK_SHARE_DISCOVERY",
+      "NORMAL_TRAFFIC", "DATA_STAGING", "FILE_COMPRESSION", "UNKNOWN_ALERT", "DATABASE_DUMP",
+      "DATA_STAGING", "EXFIL_OVER_DNS", "NORMAL_TRAFFIC"
+    ],
+    "true_states": [
+      "Noise", "Noise", "Reconnaissance", "Noise", "Reconnaissance",
+      "Reconnaissance", "Noise", "Initial Access", "Noise", "Initial Access",
+      "Execution", "Noise", "Execution", "Execution", "Noise",
+      "Privilege Escalation", "Privilege Escalation", "Lateral Movement", "Lateral Movement",
+      "Noise", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Noise", "Collection", "Collection", "Noise", "Collection",
+      "Collection", "Exfiltration", "Noise"
+    ]
+  },
+  "Advanced - C2 Heavy Multi-Stage APT": {
+    "description": "Command-and-control heavy progression with repeated beaconing, script execution, persistence-like scheduled task labels, credential access, lateral movement, and C2-assisted exfiltration.",
+    "alerts": [
+      "PHISHING_EMAIL", "MALWARE_DOWNLOAD", "C2_BEACONING", "C2_BEACONING", "POWERSHELL_ENCODED",
+      "SUSPICIOUS_PROCESS", "SCHEDULED_TASK", "C2_BEACONING", "PRIV_ESC_EXPLOIT",
+      "CREDENTIAL_DUMPING", "SCHEDULED_TASK", "C2_BEACONING", "PASS_THE_HASH", "SMB_LOGIN",
+      "REMOTE_SERVICE_CREATION", "INTERNAL_PORT_SCAN", "NETWORK_SHARE_DISCOVERY", "RDP_LOGIN",
+      "C2_BEACONING", "DATA_STAGING", "FILE_COMPRESSION", "DATABASE_DUMP", "DATA_STAGING",
+      "C2_BEACONING", "LARGE_OUTBOUND_TRANSFER", "EXFIL_OVER_HTTP", "EXFIL_OVER_HTTP"
+    ],
+    "true_states": [
+      "Initial Access", "Execution", "Execution", "Execution", "Execution",
+      "Execution", "Execution", "Execution", "Privilege Escalation",
+      "Privilege Escalation", "Privilege Escalation", "Execution", "Lateral Movement", "Lateral Movement",
+      "Lateral Movement", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Execution", "Collection", "Collection", "Collection", "Collection",
+      "Exfiltration", "Exfiltration", "Exfiltration", "Exfiltration"
+    ]
+  },
+  "Advanced - Internal Discovery to Database Exfiltration": {
+    "description": "A post-access scenario focused on internal discovery, administrative remote access, database-oriented collection, compression, and large outbound data movement.",
+    "alerts": [
+      "NORMAL_TRAFFIC", "LOGIN_BRUTE_FORCE", "MALWARE_DOWNLOAD", "SUSPICIOUS_PROCESS", "C2_BEACONING",
+      "POWERSHELL_ENCODED", "CREDENTIAL_DUMPING", "INTERNAL_PORT_SCAN", "NETWORK_SHARE_DISCOVERY",
+      "SMB_LOGIN", "REMOTE_SERVICE_CREATION", "RDP_LOGIN", "NETWORK_SHARE_DISCOVERY",
+      "SMB_LOGIN", "PASS_THE_HASH", "DATABASE_DUMP", "DATA_STAGING", "DATABASE_DUMP",
+      "FILE_COMPRESSION", "DATA_STAGING", "NORMAL_TRAFFIC", "LARGE_OUTBOUND_TRANSFER",
+      "EXFIL_OVER_HTTP", "EXFIL_OVER_DNS"
+    ],
+    "true_states": [
+      "Noise", "Initial Access", "Execution", "Execution", "Execution",
+      "Execution", "Privilege Escalation", "Lateral Movement", "Lateral Movement",
+      "Lateral Movement", "Lateral Movement", "Lateral Movement", "Lateral Movement",
+      "Lateral Movement", "Lateral Movement", "Collection", "Collection", "Collection",
+      "Collection", "Collection", "Noise", "Exfiltration",
+      "Exfiltration", "Exfiltration"
+    ]
   }
 }
